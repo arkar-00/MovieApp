@@ -33,10 +33,11 @@ export const fetchPopularMoviesFailure = createAction<{ error: string }>(
   'movies/fetchPopularMoviesFailure',
 )
 
-// IMovie Details Actions
+// Movie Details Actions
 export const fetchMovieDetailsRequest = createAction<{ movieId: number }>(
   'movies/fetchMovieDetailsRequest',
 )
+
 export const fetchMovieDetailsSuccess = createAction<{
   movieDetails: IMovieDetails
 }>('movies/fetchMovieDetailsSuccess')

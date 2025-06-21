@@ -1,6 +1,6 @@
 export type RootStackParamList = {
   BottomTab: undefined
-  Home: undefined
+  MovieDetail: { movieId: number }
 }
 
 export type BottomTabParamList = {

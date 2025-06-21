@@ -31,14 +31,12 @@ import {
 } from '../../types'
 import { MovieServices } from '../../services/MovieServices'
 
-// Worker Sagas
 function* fetchUpcomingMoviesSaga(
   action: PayloadAction<{ page: number; refresh?: boolean }>,
 ) {
   try {
     const { page } = action.payload
 
-    // Convert Observable to Promise for saga
     const response: MovieListResponse = yield call(() =>
       firstValueFrom(MovieServices.getUpcomingMovies(page)),
     )
@@ -71,7 +69,6 @@ function* fetchPopularMoviesSaga(
   try {
     const { page } = action.payload
 
-    // Convert Observable to Promise for saga
     const response: MovieListResponse = yield call(() =>
       firstValueFrom(MovieServices.getPopularMovies(page)),
     )
@@ -100,7 +97,6 @@ function* fetchMovieDetailsSaga(action: PayloadAction<{ movieId: number }>) {
   try {
     const { movieId } = action.payload
 
-    // Convert Observable to Promise for saga
     const movieDetails: IMovieDetails = yield call(() =>
       firstValueFrom(MovieServices.getMovieDetails(movieId)),
     )
@@ -122,14 +118,12 @@ function* toggleFavoriteSaga(
   action: PayloadAction<{ movie: IMovie }>,
 ): Generator<unknown, void, RootState> {
   try {
-    // Get current favorites from state
     const state: RootState = yield select()
     const favorites = state.movies.favorites
 
-    // Save to AsyncStorage
     yield call(AsyncStorage.setItem, 'favorites', JSON.stringify(favorites))
   } catch (error) {
-    // eslint-disable-next-line no-console
+
     console.error('Error saving favorites:', error)
   }
 }
@@ -145,7 +139,6 @@ function* loadFavoritesSaga() {
       yield put(loadFavoritesSuccess({ favorites }))
     }
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error loading favorites:', error)
   }
 }

@@ -2,15 +2,16 @@ import React, { useCallback, useEffect, useState, memo } from 'react'
 import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
-import { MovieCard, ScreenWrapper, TopTab, withApiState } from '../components'
+import { MovieCard, ScreenWrapper, TopTab, withApiStateView } from '../components'
 import {
   fetchPopularMoviesRequest,
   fetchUpcomingMoviesRequest,
   loadFavorites,
   toggleFavorite,
 } from '../store/actions/movieActions'
-import { IMovie, RootState, TopTabType } from '../types'
-import { TAB_DATA } from '../constants/base'
+import { IMovie, RootStackParamList, RootState, TopTabType } from '../types'
+import { COLORS, SCREEN_NAMES, TAB_DATA } from '../constants/base'
+import { StackNavigationProp } from '@react-navigation/stack'
 
 const MovieList = memo(
   ({
@@ -39,7 +40,7 @@ const MovieList = memo(
         <RefreshControl
           refreshing={currentData.api.isRefreshing || false}
           onRefresh={handleRefresh}
-          colors={['#007AFF']}
+          colors={[COLORS.PRIMARY]}
         />
       }
       onEndReached={handleLoadMore}
@@ -52,7 +53,7 @@ const MovieList = memo(
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const { upcoming, popular } = useSelector((state: RootState) => state.movies)
   const [activeTab, setActiveTab] = useState<TopTabType>('upcoming')
   const currentData = activeTab === 'upcoming' ? upcoming : popular
@@ -88,7 +89,7 @@ const HomeScreen = () => {
 
   const handleMoviePress = useCallback(
     (movie: IMovie) => {
-      // navigation.navigate('MovieDetails', { movieId: movie.id, movie })
+      navigation.navigate(SCREEN_NAMES.MOVIE_DETAIL, { movieId: movie.id })
     },
     [navigation],
   )
@@ -112,7 +113,6 @@ const HomeScreen = () => {
   )
 
   const renderFooter = useCallback(() => {
-    console.log('renderFooter called')
     if (currentData.api.isLoading && currentData.movies.length > 0) {
       return (
         <View style={styles.loadingFooter}>
@@ -123,7 +123,7 @@ const HomeScreen = () => {
     return null
   }, [currentData])
 
-  const MovieListComponent = withApiState(
+  const MovieListComponent = withApiStateView(
     ({ movies }: { movies: IMovie[] }) => (
       <MovieList
         movies={movies}
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   loadingFooter: {
     padding: 16,
     alignItems: 'center',
-    flexDirection: 'row', // Align items in a row
-    justifyContent: 'center', // Center content horizontally
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 })

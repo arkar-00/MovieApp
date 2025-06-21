@@ -4,6 +4,7 @@ export const SCREEN_NAMES = {
   HOME: 'Home',
   WALLET: 'Wallet',
   MORE: 'More',
+  MOVIE_DETAIL: 'MovieDetail',
 } as const
 
 export const STORAGE_KEYS = {
@@ -22,7 +23,7 @@ export const CACHE_DURATION = 5 * 60 * 1000 // 5 mins
 // Colors
 export const COLORS = {
   // Primary colors
-  PRIMARY: '#A48333',
+  PRIMARY: '#007AFF',
   PRIMARY_LIGHT: '#FFE5E5',
 
   // Secondary colors
@@ -41,6 +42,8 @@ export const COLORS = {
   GRAY_DARK: '#888888',
   GRAY_TEXT: '#4A4A4A',
   GRAY_DISABLED: '#666666',
+  RED: '#FF3B30',
+  YELLOW: '#FFD700',
 
   // Background colors
   BACKGROUND_LIGHT: '#F5F5F5',

@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { RootStackParamList } from '../types'
 import { SCREEN_NAMES } from '../constants/base'
-import { HomeScreen } from '../screens'
+import { HomeScreen, MovieDetailScreen } from '../screens'
 import BottomTabNavigator from './BottomTabNavigator'
 
 const Stack = createStackNavigator<RootStackParamList>()
@@ -26,6 +26,13 @@ const AppNavigator = () => {
         <Stack.Screen
           name={SCREEN_NAMES.BOTTOM_TAB}
           component={BottomTabNavigator}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name={SCREEN_NAMES.MOVIE_DETAIL}
+          component={MovieDetailScreen}
           options={{
             headerShown: false,
           }}

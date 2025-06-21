@@ -7,7 +7,12 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { IApiState } from '../../types'
-import { COLORS } from '../../constants/base'
+import {
+  COLORS,
+  DIMENSIONS,
+  FONT_SIZES,
+  FONT_WEIGHTS,
+} from '../../constants/base'
 
 interface WithApiStateProps {
   apiState: IApiState
@@ -34,7 +39,7 @@ function ApiStateView({
   if (isLoading && !isRefreshing) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#007AFF" />
+        <ActivityIndicator size="large" color={COLORS.PRIMARY} />
         <Text style={styles.loadingText}>Loading...</Text>
       </View>
     )
@@ -67,10 +72,9 @@ function ApiStateView({
       </View>
     )
   }
-
 }
 
-function withApiState<P extends object>(
+function withApiStateView<P extends object>(
   WrappedComponent: React.ComponentType<P>,
 ) {
   return function WithApiStateComponent(props: P & WithApiStateProps) {
@@ -99,7 +103,7 @@ function withApiState<P extends object>(
   }
 }
 
-export default withApiState
+export default withApiStateView
 
 const styles = StyleSheet.create({
   container: {
@@ -110,30 +114,30 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     marginTop: 10,
-    fontSize: 16,
+    fontSize: FONT_SIZES.MEDIUM,
     color: COLORS.SECONDARY,
   },
   errorText: {
-    fontSize: 16,
+    fontSize: FONT_SIZES.MEDIUM,
     color: COLORS.ERROR,
     textAlign: 'center',
     marginBottom: 20,
   },
   emptyText: {
-    fontSize: 16,
+    fontSize: FONT_SIZES.MEDIUM,
     color: COLORS.SECONDARY,
     textAlign: 'center',
     marginBottom: 20,
   },
   retryButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: COLORS.PRIMARY,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    borderRadius: 8,
+    borderRadius: DIMENSIONS.BORDER_RADIUS_MEDIUM,
   },
   retryButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
+    color: COLORS.WHITE,
+    fontSize: FONT_SIZES.MEDIUM,
+    fontWeight: FONT_WEIGHTS.SEMIBOLD,
   },
 })

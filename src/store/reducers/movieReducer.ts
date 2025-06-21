@@ -40,6 +40,20 @@ const initialState: IMoviesState = {
   favorites: [],
 }
 
+function updateMoviesWithFavorites(movies: any[], favorites: any[]) {
+  return movies.map((movie) => ({
+    ...movie,
+    isFavorite: favorites.some((fav) => fav.id === movie.id),
+  }))
+}
+
+function updateMovieFavoriteStatus(movies: any[], movieId: number, isFavorite: boolean) {
+  const idx = movies.findIndex((m) => m.id === movieId)
+  if (idx >= 0) {
+    movies[idx] = { ...movies[idx], isFavorite }
+  }
+}
+
 export const movieReducer = createReducer(initialState, (builder) => {
   builder
     // Upcoming Movies
@@ -57,20 +71,12 @@ export const movieReducer = createReducer(initialState, (builder) => {
       state.upcoming.page = action.payload.page
       state.upcoming.hasMore = action.payload.hasMore
 
-      if (action.payload.page === 1) {
-        state.upcoming.movies = action.payload.movies
-      } else {
-        state.upcoming.movies = [
-          ...state.upcoming.movies,
-          ...action.payload.movies,
-        ]
-      }
+      state.upcoming.movies =
+        action.payload.page === 1
+          ? action.payload.movies
+          : [...state.upcoming.movies, ...action.payload.movies]
 
-      // Update favorites status
-      state.upcoming.movies = state.upcoming.movies.map((movie) => ({
-        ...movie,
-        isFavorite: state.favorites.some((fav) => fav.id === movie.id),
-      }))
+      state.upcoming.movies = updateMoviesWithFavorites(state.upcoming.movies, state.favorites)
     })
     .addCase(fetchUpcomingMoviesFailure, (state, action) => {
       state.upcoming.api.isLoading = false
@@ -93,20 +99,12 @@ export const movieReducer = createReducer(initialState, (builder) => {
       state.popular.page = action.payload.page
       state.popular.hasMore = action.payload.hasMore
 
-      if (action.payload.page === 1) {
-        state.popular.movies = action.payload.movies
-      } else {
-        state.popular.movies = [
-          ...state.popular.movies,
-          ...action.payload.movies,
-        ]
-      }
+      state.popular.movies =
+        action.payload.page === 1
+          ? action.payload.movies
+          : [...state.popular.movies, ...action.payload.movies]
 
-      // Update favorites status
-      state.popular.movies = state.popular.movies.map((movie) => ({
-        ...movie,
-        isFavorite: state.favorites.some((fav) => fav.id === movie.id),
-      }))
+      state.popular.movies = updateMoviesWithFavorites(state.popular.movies, state.favorites)
     })
     .addCase(fetchPopularMoviesFailure, (state, action) => {
       state.popular.api.isLoading = false
@@ -115,9 +113,7 @@ export const movieReducer = createReducer(initialState, (builder) => {
     })
 
     // Movie Details
-    .addCase(fetchMovieDetailsRequest, (state, action) => {
-      // You can add loading state for specific movie details if needed
-    })
+    .addCase(fetchMovieDetailsRequest, () => {})
     .addCase(fetchMovieDetailsSuccess, (state, action) => {
       const movieDetails = action.payload.movieDetails
       state.movieDetails[movieDetails.id] = {
@@ -125,52 +121,27 @@ export const movieReducer = createReducer(initialState, (builder) => {
         isFavorite: state.favorites.some((fav) => fav.id === movieDetails.id),
       }
     })
-    .addCase(fetchMovieDetailsFailure, (state, action) => {
-      // Handle movie details error if needed
-    })
+    .addCase(fetchMovieDetailsFailure, () => {})
 
     // Favorites
     .addCase(toggleFavorite, (state, action) => {
       const movie = action.payload.movie
-      const existingFavoriteIndex = state.favorites.findIndex(
-        (fav) => fav.id === movie.id,
-      )
+      const existingFavoriteIndex = state.favorites.findIndex((fav) => fav.id === movie.id)
+      const isNowFavorite = existingFavoriteIndex < 0
 
-      if (existingFavoriteIndex >= 0) {
-        // Remove from favorites
-        state.favorites.splice(existingFavoriteIndex, 1)
-      } else {
-        // Add to favorites
+      if (isNowFavorite) {
         state.favorites.push({ ...movie, isFavorite: true })
+      } else {
+        state.favorites.splice(existingFavoriteIndex, 1)
       }
 
-      // Update movie in upcoming list
-      const upcomingIndex = state.upcoming.movies.findIndex(
-        (m) => m.id === movie.id,
-      )
-      if (upcomingIndex >= 0) {
-        state.upcoming.movies[upcomingIndex] = {
-          ...state.upcoming.movies[upcomingIndex],
-          isFavorite: existingFavoriteIndex < 0,
-        }
-      }
+      updateMovieFavoriteStatus(state.upcoming.movies, movie.id, isNowFavorite)
+      updateMovieFavoriteStatus(state.popular.movies, movie.id, isNowFavorite)
 
-      // Update movie in popular list
-      const popularIndex = state.popular.movies.findIndex(
-        (m) => m.id === movie.id,
-      )
-      if (popularIndex >= 0) {
-        state.popular.movies[popularIndex] = {
-          ...state.popular.movies[popularIndex],
-          isFavorite: existingFavoriteIndex < 0,
-        }
-      }
-
-      // Update movie in details
       if (state.movieDetails[movie.id]) {
         state.movieDetails[movie.id] = {
           ...state.movieDetails[movie.id],
-          isFavorite: existingFavoriteIndex < 0,
+          isFavorite: isNowFavorite,
         }
       }
     })
