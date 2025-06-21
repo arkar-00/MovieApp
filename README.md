@@ -18,7 +18,9 @@
 - Create a `.env` file in the project root
 - Add:
     ```
-    TMDB_API_KEY=your_actual_api_key_here
+    EXPO_PUBLIC_API_KEY=your_actual_api_key_here
+    EXPO_PUBLIC_BASE_URL=your_actual_url
+    EXPO_PUBLIC_IMAGE_BASE_URL=your_actual_url
     ```
 - `.env` is already in `.gitignore` for security
 
