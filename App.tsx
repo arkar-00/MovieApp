@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import NetInfo from '@react-native-community/netinfo'
@@ -9,28 +9,27 @@ import { store, persistor } from './src/store'
 import AppNavigator from './src/navigation/AppNavigator'
 import { setNetworkStatus } from './src/store/actions/movieActions'
 
-export default function App() {
+const App: React.FC = () => {
   const [isReady, setIsReady] = useState(false)
 
-  useEffect(() => {
-    // Set up network monitoring
-    const unsubscribe = NetInfo.addEventListener((state) => {
+  const handleNetworkChange = useCallback(
+    (state: { isConnected: boolean | null }) => {
       store.dispatch(
         setNetworkStatus({
           isConnected: state.isConnected ?? false,
         }),
       )
-    })
+    },
+    [],
+  )
 
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(handleNetworkChange)
     setIsReady(true)
-
     return unsubscribe
-  }, [])
+  }, [handleNetworkChange])
 
-  if (!isReady) {
-    // You can replace this with a custom splash screen
-    return null
-  }
+  if (!isReady) return null
 
   return (
     <SafeAreaProvider>
@@ -43,3 +42,5 @@ export default function App() {
     </SafeAreaProvider>
   )
 }
+
+export default App
