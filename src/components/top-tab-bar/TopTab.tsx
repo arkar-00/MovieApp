@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     width: WIDTH * 0.7,
     alignSelf: 'center',
-    marginBottom:DIMENSIONS.SPACING_MD
+    marginBottom: DIMENSIONS.SPACING_MD,
   },
   tab: {
     flex: 1,

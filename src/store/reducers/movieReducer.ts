@@ -47,7 +47,11 @@ function updateMoviesWithFavorites(movies: any[], favorites: any[]) {
   }))
 }
 
-function updateMovieFavoriteStatus(movies: any[], movieId: number, isFavorite: boolean) {
+function updateMovieFavoriteStatus(
+  movies: any[],
+  movieId: number,
+  isFavorite: boolean,
+) {
   const idx = movies.findIndex((m) => m.id === movieId)
   if (idx >= 0) {
     movies[idx] = { ...movies[idx], isFavorite }
@@ -76,7 +80,10 @@ export const movieReducer = createReducer(initialState, (builder) => {
           ? action.payload.movies
           : [...state.upcoming.movies, ...action.payload.movies]
 
-      state.upcoming.movies = updateMoviesWithFavorites(state.upcoming.movies, state.favorites)
+      state.upcoming.movies = updateMoviesWithFavorites(
+        state.upcoming.movies,
+        state.favorites,
+      )
     })
     .addCase(fetchUpcomingMoviesFailure, (state, action) => {
       state.upcoming.api.isLoading = false
@@ -104,7 +111,10 @@ export const movieReducer = createReducer(initialState, (builder) => {
           ? action.payload.movies
           : [...state.popular.movies, ...action.payload.movies]
 
-      state.popular.movies = updateMoviesWithFavorites(state.popular.movies, state.favorites)
+      state.popular.movies = updateMoviesWithFavorites(
+        state.popular.movies,
+        state.favorites,
+      )
     })
     .addCase(fetchPopularMoviesFailure, (state, action) => {
       state.popular.api.isLoading = false
@@ -126,7 +136,9 @@ export const movieReducer = createReducer(initialState, (builder) => {
     // Favorites
     .addCase(toggleFavorite, (state, action) => {
       const movie = action.payload.movie
-      const existingFavoriteIndex = state.favorites.findIndex((fav) => fav.id === movie.id)
+      const existingFavoriteIndex = state.favorites.findIndex(
+        (fav) => fav.id === movie.id,
+      )
       const isNowFavorite = existingFavoriteIndex < 0
 
       if (isNowFavorite) {

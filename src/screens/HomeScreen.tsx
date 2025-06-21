@@ -2,7 +2,12 @@ import React, { useCallback, useEffect, useState, memo } from 'react'
 import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
-import { MovieCard, ScreenWrapper, TopTab, withApiStateView } from '../components'
+import {
+  MovieCard,
+  ScreenWrapper,
+  TopTab,
+  withApiStateView,
+} from '../components'
 import {
   fetchPopularMoviesRequest,
   fetchUpcomingMoviesRequest,

@@ -123,7 +123,6 @@ function* toggleFavoriteSaga(
 
     yield call(AsyncStorage.setItem, 'favorites', JSON.stringify(favorites))
   } catch (error) {
-
     console.error('Error saving favorites:', error)
   }
 }
