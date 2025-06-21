@@ -1,2 +1,6 @@
 export { default as BottomAppBar } from './tab-bar/BottomAppBar'
 export { default as TabBarItem } from './tab-bar/TabBarItem'
+export { default as ScreenWrapper } from './ScreenWrapper'
+export { default as TopTab } from './top-tab-bar/TopTab'
+export { default as withApiState } from './hoc/withApiState'
+export { default as MovieCard } from './MovieCard'

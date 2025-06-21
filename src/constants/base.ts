@@ -6,16 +6,18 @@ export const SCREEN_NAMES = {
   MORE: 'More',
 } as const
 
-// Storage keys
 export const STORAGE_KEYS = {
-  ONBOARDING_DATA: 'onboarding_data',
-} as const
+  UPCOMING_MOVIES: 'upcoming_movies',
+  POPULAR_MOVIES: 'popular_movies',
+  MOVIE_DETAILS: 'movie_details_',
+}
 
-// Redux action types
-export const REDUX_ACTIONS = {
-  ONBOARDING_SAVE_DATA: 'onboarding/saveData',
-  ONBOARDING_LOAD_DATA: 'onboarding/loadData',
-} as const
+export const TAB_DATA = [
+  { key: 'upcoming', label: 'Upcoming' },
+  { key: 'popular', label: 'Popular' },
+]
+
+export const CACHE_DURATION = 5 * 60 * 1000 // 5 mins
 
 // Colors
 export const COLORS = {
