@@ -97,3 +97,22 @@ _All API calls are cached locally for offline support._
 - API keys are stored in environment variables
 - `.env` is excluded from version control
 - **Never commit your actual API keys to the repository**
+
+## 🧪 Scripts
+
+```bash
+# Development
+npm start          # Expo dev server
+npm run ios        # iOS simulator
+npm run android    # Android emulator
+npm run web        # Web browser
+
+# Code Quality
+npm run lint       # ESLint
+npm run lint:fix   # Fix ESLint issues
+npm run format     # Prettier
+npm run test       # Testing
+
+# Build
+npm run build      # Production build
+```
