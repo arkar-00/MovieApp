@@ -31,7 +31,7 @@ import {
 } from '../../types'
 import { MovieServices } from '../../services/MovieServices'
 
-function* fetchUpcomingMoviesSaga(
+export function* fetchUpcomingMoviesSaga(
   action: PayloadAction<{ page: number; refresh?: boolean }>,
 ) {
   try {
@@ -63,7 +63,7 @@ function* fetchUpcomingMoviesSaga(
   }
 }
 
-function* fetchPopularMoviesSaga(
+export function* fetchPopularMoviesSaga(
   action: PayloadAction<{ page: number; refresh?: boolean }>,
 ) {
   try {
@@ -114,7 +114,7 @@ function* fetchMovieDetailsSaga(action: PayloadAction<{ movieId: number }>) {
   }
 }
 
-function* toggleFavoriteSaga(
+export function* toggleFavoriteSaga(
   action: PayloadAction<{ movie: IMovie }>,
 ): Generator<unknown, void, RootState> {
   try {
