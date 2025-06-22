@@ -45,6 +45,7 @@ const TopTab: React.FC<TopTabProps> = ({ tabs, activeTab, onTabPress }) => {
     <View style={styles.tabContainer}>
       {/* Animated Background Indicator */}
       <Animated.View
+        testID="animated-indicator"
         style={[
           styles.indicator,
           {

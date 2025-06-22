@@ -39,7 +39,11 @@ function ApiStateView({
   if (isLoading && !isRefreshing) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color={COLORS.PRIMARY} />
+        <ActivityIndicator
+          testID="ActivityIndicator"
+          size="large"
+          color={COLORS.PRIMARY}
+        />
         <Text style={styles.loadingText}>Loading...</Text>
       </View>
     )
